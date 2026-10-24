@@ -1,69 +1,48 @@
-# See https://github.com/gnuq/nx/blob/master/.gitignore
-# Default Next.js gitignore
+# Dependencies
+node_modules/
 
-# Production builds
-/.next/
+# Next.js
+.next/
+out/
+build/
 
-# Turbopack output
-.turbopack/
+# Production
+dist/
 
-# Production cache
-/.next/
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
 
-# Nuxt/Next cache
-/node_modules/
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
-tsconfig.tsbuildinfo
+next-env.d.ts
 
-# Environment variables
-.env*
-*.local.env*
+# Testing
+coverage/
 
-# Dependencies
-yarn.lock
-package-lock.lock
-pnpm-lock.yaml
+# Deployment
+.vercel/
+.netlify/
 
-# Vercel
-.vercel
-
-# IDE
-.vscode/
-.idea/
-*.code-workspace
-
-# OS
+# OS files
 .DS_Store
-/Local/
+Thumbs.db
 
-# Swap
-*.swp
-*.swo
+# IDE and editor files
+.vscode/*
+!.vscode/extensions.json
+.idea/
 
-# Backup
-*~
+# Local tooling
+.turbo/
+.tur bocache/
 
-# Mac
-.AppleDouble
-.LSOverride
-
-# Next.js specific
-.next/
-/.next/
-
-# Production
-.env.production
-.env.production.local
-
-# Development
-.env.development
-.env.development.local
-
-# Test
-.env.test
-.env.test.local
-
-# Storybook
-.storybook/
+# Optional package manager files
+# Keep package-lock.json, pnpm-lock.yaml, or yarn.lock tracked.

@@ -1,7 +1,6 @@
 /* AnyImage Converter - Workspace
 ==============================
-Main converter interface with upload, format selection,
-and conversion functionality.
+Main converter workspace with centered layout and Lucide icons.
 */
 
 "use client";
@@ -9,14 +8,26 @@ and conversion functionality.
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  CloudUpload,
+  FolderOpen,
+  Lock,
+  HelpCircle,
+  Sparkles,
+  Download,
+  Trash2,
+  Settings,
+  Image as ImageIcon
+} from "lucide-react";
 
 export default function ConverterPage() {
   const [files, setFiles] = useState<File[]>([]);
-  const [mode, setMode] = useState("convert");
-  const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
+  const [selectedFormat, setSelectedFormat] = useState<string | null>("png");
   const [quality, setQuality] = useState(80);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
   const [conversionQueue, setConversionQueue] = useState<
     Array<{
       id: string;
@@ -32,36 +43,37 @@ export default function ConverterPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Detect format from filename
-  const detectFormatFromName = (name: string): string => {
-    const ext = name.slice(name.lastIndexOf(".")).toLowerCase();
-    const map: Record<string, string> = {
-      ".jpg": "jpg",
-      ".jpeg": "jpg",
-      ".png": "png",
-      ".webp": "webp",
-      ".gif": "gif",
-      ".avif": "avif",
-      ".bmp": "bmp",
-      ".tiff": "tiff",
-      ".ico": "ico",
-    };
-    return map[ext] || "png";
+  // Handle file drop / selection
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setFiles(newFiles);
+    }
+    e.target.value = "";
   };
 
-  // Handle file input change
-  const handleFilesChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(e.target.files || []) as File[];
-      if (files.length > 0) {
-        setFiles(files);
-        setSelectedFormat("png");
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const droppedFiles = Array.from(e.dataTransfer.files).filter((file) =>
+        file.type.startsWith("image/")
+      );
+      if (droppedFiles.length > 0) {
+        setFiles(droppedFiles);
       }
-      // Reset input to allow same file selection
-      e.target!.value = "";
-    },
-    []
-  );
+    }
+  };
 
   // Handle format change
   const handleFormatChange = useCallback(
@@ -202,7 +214,6 @@ export default function ConverterPage() {
   const handleConvert = useCallback(async () => {
     if (!files.length || !selectedFormat) return;
 
-    // Reset queue and start fresh
     setConversionQueue(
       files.map((file, index) => ({
         id: `conv-${Date.now()}-${index}`,
@@ -216,7 +227,6 @@ export default function ConverterPage() {
     await processConversion();
   }, [files, selectedFormat, processConversion]);
 
-  // Handle download individual
   const handleDownloadIndividual = useCallback(
     (item: { outputName?: string; output?: Blob }) => {
       if (!item.output) return;
@@ -233,217 +243,285 @@ export default function ConverterPage() {
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <header className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-3">
-            AnyImage Converter
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            Convert any image to JPG, PNG, WebP, GIF, BMP, TIFF, AVIF, or ICO format
-          </p>
+    <div className="min-h-screen bg-[#0B1020] text-[#F4F7FF] flex flex-col justify-between items-center selection:bg-[#6557FF]/30 selection:text-[#F4F7FF] relative overflow-x-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-[#6557FF]/15 via-[#A855F7]/5 to-transparent blur-3xl pointer-events-none" />
+
+      {/* Main Container - Centered max-width 960px */}
+      <div className="w-full max-w-[960px] mx-auto px-4 sm:px-8 flex flex-col items-center justify-center my-auto py-12 relative z-10">
+        
+        {/* Header */}
+        <header className="w-full flex items-center justify-between mb-12 bg-[#0E1425] border border-[#27334D] rounded-2xl px-6 py-4 shadow-md">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#A855F7] to-[#6557FF] flex items-center justify-center shadow-md shadow-[#6557FF]/20">
+                <ImageIcon size={20} className="text-white" />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-lg tracking-tight text-[#F4F7FF]">AnyImage Converter</span>
+              </div>
+            </Link>
+          </div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#91A2C2] hover:text-[#F4F7FF] transition-colors bg-[#182238] px-4 py-2 rounded-full border border-[#27334D]"
+          >
+            Home
+          </Link>
         </header>
 
-        {/* Upload Area */}
-        <div className="border-2 border-border-default rounded-2xl p-8 text-center relative overflow-hidden">
-          {files.length === 0 && (
-            <div className="relative">
-              <div
-                className="drag-upload-box rounded-2xl p-12 border-2 border-dashed border-border-default bg-background transition-colors hover:border-primary-indigo cursor-pointer"
-                onClick={() => fileInputRef.current?.click()}
+        {/* Hero Section */}
+        <section className="text-center mb-10 w-full">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#F4F7FF] mb-3">
+            Convert images <span className="gradient-text">in seconds.</span>
+          </h1>
+          <p className="text-base sm:text-lg text-[#91A2C2] max-w-lg mx-auto">
+            Your images, your format. Simple, fast, and secure.
+          </p>
+        </section>
+
+        {/* Upload Card - max width 680px */}
+        <div className="w-full max-w-[680px] bg-[#111A2D] border border-[#27334D] rounded-[24px] p-6 sm:p-8 shadow-2xl relative">
+          {files.length === 0 ? (
+            <div
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={`min-h-[320px] sm:min-h-[360px] rounded-[18px] border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center p-6 sm:p-10 text-center ${
+                isDragging
+                  ? "border-[#6557FF] bg-[#6557FF]/10 scale-[0.99]"
+                  : "border-[#27334D] bg-[#182238]/40 hover:border-[#6557FF] hover:bg-[#182238]/70"
+              }`}
+            >
+              {/* Cloud Upload Icon */}
+              <div className="w-16 h-16 rounded-2xl bg-[#6557FF]/10 border border-[#6557FF]/30 flex items-center justify-center mb-5 text-[#6557FF] shadow-inner">
+                <CloudUpload size={44} />
+              </div>
+
+              <h3 className="text-xl sm:text-2xl font-bold text-[#F4F7FF] mb-1">
+                Drop your image here
+              </h3>
+              <p className="text-sm text-[#91A2C2] mb-6">
+                or browse files from your device
+              </p>
+
+              {/* Choose image button with folder icon */}
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#6557FF] text-white font-semibold text-sm shadow-lg shadow-[#6557FF]/25 hover:bg-[#796BFF] hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
-                <svg
-                  className="w-12 h-12 mx-auto mb-4 opacity-50"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+                <FolderOpen size={18} />
+                Choose image
+              </button>
+
+              {/* Format badges */}
+              <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+                {["JPG", "PNG", "WebP", "AVIF", "GIF", "TIFF"].map((fmt, idx, arr) => (
+                  <span key={fmt} className="inline-flex items-center gap-2 text-xs font-medium text-[#91A2C2]">
+                    <span className="px-3.5 py-1 rounded-full bg-[#182238] border border-[#27334D]">
+                      {fmt}
+                    </span>
+                    {idx < arr.length - 1 && <span className="text-[#27334D]">&middot;</span>}
+                  </span>
+                ))}
+              </div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Image Preview Panel */}
+              <div className="relative rounded-2xl overflow-hidden border border-[#27334D] bg-[#182238]/50 p-6">
+                <div className="relative w-full h-64 sm:h-72">
+                  <Image
+                    src={URL.createObjectURL(files[0])}
+                    alt="Uploaded image preview"
+                    fill
+                    className="object-contain rounded-xl"
+                  />
+                </div>
+                <div className="mt-6 flex items-center justify-between text-left border-t border-[#27334D] pt-4">
+                  <div>
+                    <p className="text-sm font-semibold text-[#F4F7FF] truncate max-w-xs sm:max-w-md">
+                      {files[0].name}
+                    </p>
+                    <p className="text-xs text-[#91A2C2] mt-0.5">
+                      {files[0].size > 1024
+                        ? `${(files[0].size / 1024).toFixed(1)} KB`
+                        : `${files[0].size} bytes`}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFiles([]);
+                      setConversionQueue([]);
+                    }}
+                    className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-medium px-3.5 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 transition-colors"
+                  >
+                    <Trash2 size={14} />
+                    Remove
+                  </button>
+                </div>
+              </div>
+
+              {/* Format Selector */}
+              <div className="text-left bg-[#182238]/40 p-5 rounded-2xl border border-[#27334D]">
+                <label className="block text-sm font-semibold text-[#F4F7FF] mb-3">
+                  Convert to format
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {["jpg", "png", "webp", "avif", "gif", "bmp", "tiff", "ico"].map(
+                    (format) => (
+                      <button
+                        key={format}
+                        onClick={() => handleFormatChange(format)}
+                        className={cn(
+                          selectedFormat === format,
+                          "py-2.5 px-3 text-sm font-semibold rounded-xl border transition-all text-center",
+                          selectedFormat === format
+                            ? "bg-[#6557FF] text-white border-[#6557FF] shadow-lg shadow-[#6557FF]/30"
+                            : "bg-[#111A2D] text-[#91A2C2] border-[#27334D] hover:border-[#6557FF]/50 hover:text-[#F4F7FF]"
+                        )}
+                      >
+                        {format.toUpperCase()}
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Advanced Settings */}
+              <div className="text-left bg-[#182238]/40 p-5 rounded-2xl border border-[#27334D]">
+                <button
+                  onClick={handleAdvancedToggle}
+                  className="w-full flex items-center justify-between text-sm font-semibold text-[#F4F7FF]"
                 >
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M10 7l5 5L17 14M21 3v9a2 2 0 01-2 2H5a2 2 0 01-2-2V3m20-8-6.18 6.18a2 2 0 01-2.83 0L1 15l8.18 8.18a2 2 0 1 0 0 3.46 2 2 0 0 1 2.83 0L25 8l-6.18 6.18a2 2 0 01-2.83 0L1 15l8.18 8.18a2 2 0 1 0 0 3.46 2 2 0 0 1 2.83 0L5 13l-8 8 8 8L5 13l-8-8-8 8L1 5z" />
-                </svg>
-                <h3 className="text-lg font-medium text-foreground mb-2">
-                  Drop your image here
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  or click to browse files
-                </p>
-                <p className="text-xs text-muted-foreground/70">
-                  Upload JPG, PNG, WebP, GIF, AVIF, BMP, TIFF, SVG, and other
-                  supported formats.
-                </p>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                />
-              </div>
-            </div>
-          )}
+                  <span className="flex items-center gap-2">
+                    <Settings size={16} className="text-[#6557FF]" />
+                    Advanced Settings
+                  </span>
+                  <span className="text-[#91A2C2] text-xs">{showAdvanced ? "Hide" : "Show"}</span>
+                </button>
 
-          {files.length > 0 && (
-            <div className="relative">
-              {/* Image Preview */}
-              <div className="mt-6">
-                <Image
-                  src={URL.createObjectURL(files[0])}
-                  alt="Uploaded image"
-                  width={400}
-                  height={300}
-                  className="rounded-md border border-border-default w-full h-auto max-h-[300px] object-cover"
-                />
-              </div>
+                {showAdvanced && (
+                  <div className="mt-4 pt-4 border-t border-[#27334D] space-y-4">
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-xs font-medium text-[#91A2C2]">
+                          Quality ({quality}%)
+                        </label>
+                      </div>
+                      <input
+                        type="range"
+                        min="1"
+                        max="100"
+                        value={quality}
+                        onChange={(e) => handleQualityChange(parseInt(e.target.value))}
+                        className="w-full accent-[#6557FF] cursor-pointer"
+                      />
+                    </div>
 
-              {/* Image Info */}
-              <div className="mt-4 flex flex-col gap-2">
-                <p className="text-sm text-muted-foreground">
-                  {files[0].name}
-                </p>
-                <p className="text-xs text-muted-foreground/70">
-                  {files[0].size > 1024
-                    ? `${(files[0].size / 1024).toFixed(1)} KB`
-                    : `${files[0].size} bytes`}
-                </p>
-              </div>
-
-              {/* Remove button */}
-              <button
-                onClick={() => setFiles([])}
-                className="absolute top-3 right-3 text-muted-foreground/70 hover:text-foreground transition-colors"
-              >
-                ✕
-              </button>
-            </div>
-          )}
-
-          {/* Convert Button */}
-          {files.length > 0 && selectedFormat && (
-            <div className="mt-6">
-              <button
-                onClick={handleConvert}
-                className="w-full rounded-xl px-6 py-3 bg-primary-indigo text-white font-medium transition-colors hover:bg-primary-indigo-light disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Convert Image
-              </button>
-            </div>
-          )}
-
-          {/* Format Selector */}
-          {files.length > 0 && selectedFormat === null && (
-            <div className="mt-6">
-              <p className="text-sm text-muted-foreground mb-4">Convert to</p>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {["jpg", "png", "webp", "avif", "gif", "bmp", "tiff", "ico"].map(
-                  (format) => (
-                    <button
-                      key={format}
-                      onClick={() => handleFormatChange(format)}
-                      className={cn(
-                        selectedFormat === format,
-                        "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
-                        "bg-primary-indigo text-white",
-                        "text-primary-indigo hover:bg-primary-indigo-light"
-                      )}
-                    >
-                      {format.toUpperCase()}
-                    </button>
-                  )
+                    {selectedFormat === "jpg" && (
+                      <div>
+                        <label className="block text-xs font-medium text-[#91A2C2] mb-2">
+                          Background Color for Transparency (JPG)
+                        </label>
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="color"
+                            value={backgroundColor || "#ffffff"}
+                            onChange={(e) => setBackgroundColor(e.target.value)}
+                            className="w-10 h-10 rounded-lg border border-[#27334D] cursor-pointer p-0 bg-transparent"
+                          />
+                          <span className="text-xs text-[#91A2C2]">
+                            {backgroundColor || "#ffffff"} (Defaults to white)
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
+
+              {/* Convert Button */}
+              <div>
+                <button
+                  onClick={handleConvert}
+                  className="w-full py-4 px-6 bg-[#6557FF] text-white font-bold rounded-xl shadow-lg shadow-[#6557FF]/30 hover:bg-[#796BFF] hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+                >
+                  <Sparkles size={18} />
+                  Convert Image
+                </button>
+              </div>
+
+              {/* Results / Download Section */}
+              {conversionQueue.length > 0 && (
+                <div className="mt-6 space-y-4 pt-6 border-t border-[#27334D]">
+                  <h4 className="text-sm font-bold text-[#F4F7FF] text-left">
+                    Converted Result
+                  </h4>
+                  {conversionQueue.map((item) => (
+                    <div
+                      key={item.id}
+                      className="p-4 rounded-xl border border-[#27334D] bg-[#111A2D] flex items-center justify-between"
+                    >
+                      <div className="text-left">
+                        <p className="text-sm font-semibold text-[#F4F7FF]">
+                          {item.outputName || "converted-image"}
+                        </p>
+                        <p className="text-xs text-[#91A2C2]">
+                          {item.status === "success" && item.output
+                            ? `Size: ${(item.output.size / 1024).toFixed(1)} KB (${item.reductionPercent}% saved)`
+                            : item.status === "error"
+                            ? item.error || "Conversion failed"
+                            : "Converting..."}
+                        </p>
+                      </div>
+                      {item.status === "success" && item.output && (
+                        <button
+                          onClick={() => handleDownloadIndividual(item)}
+                          className="flex items-center gap-1.5 px-4 py-2 bg-[#6557FF] text-white text-xs font-semibold rounded-lg hover:bg-[#796BFF] hover:shadow-md hover:shadow-[#6557FF]/30 transition-all"
+                        >
+                          <Download size={14} />
+                          Download
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    onClick={() => {
+                      setFiles([]);
+                      setConversionQueue([]);
+                    }}
+                    className="w-full py-3 bg-[#182238] border border-[#27334D] text-[#91A2C2] hover:text-[#F4F7FF] text-sm font-semibold rounded-xl transition-colors"
+                  >
+                    Convert Another Image
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* Advanced Settings */}
-        {files.length > 0 && (
-          <div className="mt-6">
-            <button
-              onClick={handleAdvancedToggle}
-              className="text-sm text-primary-indigo underline underline-offset-2 flex items-center gap-1 transition-colors"
-            >
-              {showAdvanced ? "Hide advanced settings" : "Show advanced settings"}
-            </button>
-
-            {showAdvanced && (
-              <div className="mt-4 p-4 rounded-xl bg-white border border-border-default">
-                <div className="grid grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Quality
-                    </label>
-                    <input
-                      type="range"
-                      min="1"
-                      max="100"
-                      value={quality}
-                      onChange={(e) => handleQualityChange(parseInt(e.target.value))}
-                      className="w-full accent-primary-indigo"
-                    />
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>1</span>
-                      <span>100</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Background color (for JPG)
-                    </label>
-                    {selectedFormat === "jpg" && backgroundColor ? (
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-6 h-6 rounded bg-${backgroundColor.replace(
-                            "#",
-                            ""
-                          )} flex items-center justify-center text-xs font-medium`}
-                        >
-                          {backgroundColor}
-                        </div>
-                        <input
-                          type="color"
-                          value={backgroundColor || "#ffffff"}
-                          onChange={(e) => setBackgroundColor(e.target.value)}
-                          className="hidden"
-                        />
-                      </div>
-                    ) : (
-                      <p className="text-xs text-muted-foreground/70">
-                        No background needed (PNG/WebP/AVIF support transparency)
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Resize
-                  </label>
-                  <p className="text-xs text-muted-foreground/70">
-                    Image resize options
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Action buttons */}
-        {files.length > 0 && selectedFormat && (
-          <div className="mt-8 pt-8 border-t border-border-default">
-            <button
-              onClick={handleConvert}
-              className="w-full rounded-xl px-6 py-3 bg-primary-indigo text-white font-medium transition-colors hover:bg-primary-indigo-light disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Convert Image
-            </button>
-            <button
-              onClick={() => setFiles([])}
-              className="w-full rounded-xl px-6 py-3 bg-white text-primary-indigo font-medium transition-colors border border-primary-indigo mt-3"
-            >
-              Convert Another Image
-            </button>
-          </div>
-        )}
+        {/* Privacy message */}
+        <div className="mt-8 flex items-center justify-center gap-2 text-xs text-[#91A2C2]">
+          <Lock size={14} className="text-[#6557FF]" />
+          <span>Your files stay on your device</span>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="w-full border-t border-[#27334D] bg-[#0E1425]/50 py-6 px-4 text-center text-xs text-[#91A2C2] relative z-10">
+        <p>AnyImage &middot; Convert, enjoy and edit your images &middot; v1.0</p>
+      </footer>
     </div>
   );
 }
