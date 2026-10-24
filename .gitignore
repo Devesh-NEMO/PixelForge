@@ -1,0 +1,69 @@
+# See https://github.com/gnuq/nx/blob/master/.gitignore
+# Default Next.js gitignore
+
+# Production builds
+/.next/
+
+# Turbopack output
+.turbopack/
+
+# Production cache
+/.next/
+
+# Nuxt/Next cache
+/node_modules/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Environment variables
+.env*
+*.local.env*
+
+# Dependencies
+yarn.lock
+package-lock.lock
+pnpm-lock.yaml
+
+# Vercel
+.vercel
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+/Local/
+
+# Swap
+*.swp
+*.swo
+
+# Backup
+*~
+
+# Mac
+.AppleDouble
+.LSOverride
+
+# Next.js specific
+.next/
+/.next/
+
+# Production
+.env.production
+.env.production.local
+
+# Development
+.env.development
+.env.development.local
+
+# Test
+.env.test
+.env.test.local
+
+# Storybook
+.storybook/
