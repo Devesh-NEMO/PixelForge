@@ -1,19 +1,16 @@
+import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "AnyImage Converter",
-  description: "Convert, compress, and resize images in your browser",
+export const metadata: Metadata = {
+  title: "PixelForge Converter",
+  description: "Convert, compress, and resize images in your browser.",
 };
 
 export default function RootLayout({
@@ -22,13 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full bg-background text-font antialiased">
-        {children}
-      </body>
+    <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
+      <body className="min-h-full bg-canvas font-sans text-ink">{children}</body>
     </html>
   );
 }
