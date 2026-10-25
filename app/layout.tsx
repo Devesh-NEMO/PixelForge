@@ -10,7 +10,7 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "PixelForge Converter",
-  description: "Convert, compress, and resize images in your browser.",
+  description: "Convert and compress images in your browser. No uploads, no accounts, no server.",
 };
 
 export default function RootLayout({
