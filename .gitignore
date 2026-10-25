@@ -46,3 +46,6 @@ Thumbs.db
 
 # Optional package manager files
 # Keep package-lock.json, pnpm-lock.yaml, or yarn.lock tracked.
+# Playwright
+playwright-report/
+test-results/
