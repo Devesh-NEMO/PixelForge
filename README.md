@@ -124,18 +124,31 @@ pixelforge/
 │   ├── manifest.ts          # Web app manifest
 │   └── globals.css          # Tailwind import + @theme design tokens
 ├── components/
-│   ├── image-converter.tsx  # Upload, resize, convert, results (client)
-│   ├── compare-dialog.tsx   # Before/after slider
-│   ├── site-header.tsx      # Wordmark + "How it works"
+│   ├── image-converter.tsx      # Composition only: hooks + panels
+│   ├── converter/
+│   │   ├── drop-zone.tsx        # Empty state and format chips
+│   │   ├── preview-grid.tsx     # Thumbnails, per-file remove, add tile
+│   │   ├── format-picker.tsx    # Output format pills
+│   │   ├── resize-panel.tsx     # Width/height, aspect lock, presets
+│   │   ├── output-settings.tsx  # Quality, target size, background
+│   │   ├── results-list.tsx     # Per-file results and the PDF card
+│   │   └── cloud-glyph.tsx
+│   ├── compare-dialog.tsx       # Before/after slider
+│   ├── site-header.tsx          # Wordmark + "How it works"
 │   ├── site-footer.tsx
-│   ├── how-it-works.tsx     # Modal explainer
-│   └── service-worker.tsx   # Registers /sw.js in production
+│   ├── how-it-works.tsx         # Modal explainer
+│   └── service-worker.tsx       # Registers /sw.js in production
+├── hooks/
+│   ├── use-image-jobs.ts        # Files, HEIC, object URLs, removal
+│   └── use-conversion.ts        # Settings + queue loop (raster & PDF)
 ├── lib/
-│   ├── formats.ts           # Format table + encoder probing
-│   ├── image.ts             # Pure helpers (sizes, resize math, quality search)
-│   ├── pdf.ts               # Dependency-free PDF writer (one JPEG per page)
-│   ├── convert-types.ts     # Worker message contract
-│   └── convert-client.ts    # Worker orchestration + main-thread fallback
+│   ├── formats.ts               # Format table + encoder probing
+│   ├── image.ts                 # Pure helpers (sizes, resize math, quality search)
+│   ├── pdf.ts                   # Dependency-free PDF writer (one JPEG per page)
+│   ├── job.ts                   # Job / PdfResult types
+│   ├── cn.ts                    # Class-name join
+│   ├── convert-types.ts         # Worker message contract
+│   └── convert-client.ts        # Worker orchestration + main-thread fallback
 ├── workers/convert.worker.ts
 ├── tests/                   # Vitest unit tests
 ├── e2e/                     # Playwright specs
