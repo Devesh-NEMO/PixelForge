@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Loader2, Plus, RotateCcw, Settings, Sparkles } from "lucide-react";
+import { Loader2, Plus, RotateCcw } from "lucide-react";
 import { useConversion } from "../hooks/use-conversion";
 import { useImageJobs } from "../hooks/use-image-jobs";
 import { cn } from "../lib/cn";
@@ -66,19 +66,14 @@ export function ImageConverter() {
     void addFiles(event.dataTransfer.files);
   };
 
+  const ghostButton =
+    "press inline-flex h-8 items-center gap-1.5 border-[1.5px] border-ink bg-paper px-2.5 text-[9px] tracking-[0.1em] uppercase hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]";
+
   return (
     <div
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={cn(
-        "card-wash relative w-full overflow-hidden rounded-[22px] transition-colors duration-200",
-        jobs.length > 0
-          ? "border border-line shadow-[0_30px_90px_-50px_rgba(0,0,0,0.9)]"
-          : "border-2 border-dashed",
-        dragging ? "border-brand" : null,
-        !dragging && jobs.length === 0 ? "border-[#5d5fee]" : null
-      )}
     >
       <input
         ref={fileInputRef}
@@ -94,6 +89,7 @@ export function ImageConverter() {
 
       {jobs.length === 0 ? (
         <DropZone
+          dragging={dragging}
           onBrowse={() => fileInputRef.current?.click()}
           onPick={(format) => {
             if (format) conversion.setFormatId(format);
@@ -101,133 +97,134 @@ export function ImageConverter() {
           }}
         />
       ) : (
-        <div className="px-5 py-6 text-left sm:px-8 sm:py-7">
-          <div className="flex flex-wrap items-start justify-between gap-3">
+        <div
+          className={cn(
+            "border-2 border-ink shadow-[8px_8px_0_var(--color-ink)] sm:shadow-[10px_10px_0_var(--color-ink)]",
+            dragging ? "bg-lime/20" : "bg-paper-2"
+          )}
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink px-4 py-3.5 sm:px-6">
             <div>
-              <h2 className="text-[19px] font-bold tracking-[-0.02em] text-ink">
+              <h2 className="font-display text-[17px] tracking-[-0.01em] uppercase sm:text-[20px]">
                 {jobs.length} {jobs.length === 1 ? "image" : "images"}
               </h2>
-              <p className="mt-1 text-[13px] font-medium text-muted">
+              <p className="mt-1 text-[9px] tracking-[0.1em] text-muted uppercase sm:text-[9.5px]">
                 {preparing
                   ? "Preparing files..."
-                  : `${formatBytes(totalSize)} total \u00b7 nothing leaves this device`}
+                  : `${formatBytes(totalSize)} total / nothing leaves this device`}
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[13px] font-semibold text-muted transition-colors hover:border-brand/60 hover:text-ink"
+                className={ghostButton}
               >
-                <Plus size={13} />
+                <Plus size={12} strokeWidth={3} />
                 Add
               </button>
-              <button
-                type="button"
-                onClick={resetAll}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[13px] font-semibold text-muted transition-colors hover:border-line-strong hover:text-ink"
-              >
-                <RotateCcw size={13} />
-                Start over
+              <button type="button" onClick={resetAll} className={ghostButton}>
+                <RotateCcw size={12} strokeWidth={2.6} />
+                Reset
               </button>
             </div>
           </div>
 
-          <PreviewGrid
-            jobs={jobs}
-            onRemove={removeJob}
-            onAdd={() => fileInputRef.current?.click()}
-          />
-
-          <FormatPicker
-            formats={conversion.availableFormats}
-            value={conversion.formatId}
-            onSelect={(id) => {
-              if (id !== conversion.formatId) jobsApi.clearPdfResult();
-              conversion.setFormatId(id);
-            }}
-          />
-
-          <button
-            type="button"
-            onClick={() => setShowAdvanced((value) => !value)}
-            aria-expanded={showAdvanced}
-            className="mt-5 inline-flex items-center gap-2 text-[13px] font-semibold text-muted transition-colors hover:text-ink"
-          >
-            <Settings size={14} className="text-brand-soft" />
-            Advanced settings
-            <span className="text-faint">{showAdvanced ? "\u2013" : "+"}</span>
-          </button>
-
-          {showAdvanced && (
-            <div className="mt-3 space-y-3">
-              <ResizePanel
-                width={conversion.resizeWidth}
-                height={conversion.resizeHeight}
-                keepAspect={conversion.keepAspect}
-                sample={conversion.sample}
-                target={conversion.sampleSize}
-                onChangeWidth={conversion.setResizeWidth}
-                onChangeHeight={conversion.setResizeHeight}
-                onToggleAspect={() =>
-                  conversion.setKeepAspect((value) => !value)
-                }
-                onReset={() => {
-                  conversion.setResizeWidth("");
-                  conversion.setResizeHeight("");
-                }}
-              />
-
-              <OutputSettings
-                format={conversion.format}
-                quality={conversion.quality}
-                onQualityChange={conversion.setQuality}
-                targetEnabled={conversion.targetEnabled}
-                onTargetEnabledChange={conversion.setTargetEnabled}
-                targetKb={conversion.targetKb}
-                onTargetKbChange={conversion.setTargetKb}
-                backgroundColor={conversion.backgroundColor}
-                onBackgroundColorChange={conversion.setBackgroundColor}
-              />
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={conversion.handleConvert}
-            disabled={conversion.busy || preparing}
-            className="mt-5 inline-flex h-[54px] w-full items-center justify-center gap-2.5 rounded-[14px] bg-[#5550fe] text-[15.5px] font-semibold text-white shadow-[0_18px_38px_-16px_rgba(85,80,254,0.95)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {conversion.busy ? (
-              <Loader2 size={17} className="animate-spin" />
-            ) : (
-              <Sparkles size={17} />
-            )}
-            {conversion.busy
-              ? "Converting..."
-              : `Convert ${jobs.length === 1 ? "image" : `${jobs.length} images`} to ${conversion.format.label}`}
-          </button>
-
-          {finishing && (
-            <ResultsList
+          <div className="px-4 py-4 sm:px-6 sm:py-5">
+            <PreviewGrid
               jobs={jobs}
-              pdfResult={pdfResult}
-              onCompare={setCompareId}
-              onDownloadAll={() => void conversion.downloadAll()}
+              onRemove={removeJob}
+              onAdd={() => fileInputRef.current?.click()}
             />
-          )}
 
-          <p className="mt-5 flex flex-wrap items-center gap-1.5 text-[11px] font-medium text-faint">
-            <Sparkles size={11} className="text-brand-soft" />
-            Tip: press
-            <kbd className="rounded border border-line px-1 py-0.5 text-[10px] text-muted">
-              {shortcutKey}
-            </kbd>
-            <kbd className="rounded border border-line px-1 py-0.5 text-[10px] text-muted">
-              Enter
-            </kbd>
-            to convert, or paste an image from your clipboard.
-          </p>
+            <FormatPicker
+              formats={conversion.availableFormats}
+              value={conversion.formatId}
+              onSelect={(id) => {
+                if (id !== conversion.formatId) jobsApi.clearPdfResult();
+                conversion.setFormatId(id);
+              }}
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowAdvanced((value) => !value)}
+              aria-expanded={showAdvanced}
+              className="mt-5 inline-flex items-center gap-2 text-[9.5px] tracking-[0.12em] uppercase underline-offset-4 hover:underline"
+            >
+              <span className="grid h-4 w-4 place-items-center border-[1.5px] border-ink bg-paper text-[10px] leading-none">
+                {showAdvanced ? "\u2013" : "+"}
+              </span>
+              Advanced settings
+            </button>
+
+            {showAdvanced && (
+              <div className="mt-3 space-y-2.5">
+                <ResizePanel
+                  width={conversion.resizeWidth}
+                  height={conversion.resizeHeight}
+                  keepAspect={conversion.keepAspect}
+                  sample={conversion.sample}
+                  target={conversion.sampleSize}
+                  onChangeWidth={conversion.setResizeWidth}
+                  onChangeHeight={conversion.setResizeHeight}
+                  onToggleAspect={() =>
+                    conversion.setKeepAspect((value) => !value)
+                  }
+                  onReset={() => {
+                    conversion.setResizeWidth("");
+                    conversion.setResizeHeight("");
+                  }}
+                />
+
+                <OutputSettings
+                  format={conversion.format}
+                  quality={conversion.quality}
+                  onQualityChange={conversion.setQuality}
+                  targetEnabled={conversion.targetEnabled}
+                  onTargetEnabledChange={conversion.setTargetEnabled}
+                  targetKb={conversion.targetKb}
+                  onTargetKbChange={conversion.setTargetKb}
+                  backgroundColor={conversion.backgroundColor}
+                  onBackgroundColorChange={conversion.setBackgroundColor}
+                />
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={conversion.handleConvert}
+              disabled={conversion.busy || preparing}
+              className="press mt-5 flex w-full items-center justify-center gap-2.5 border-2 border-ink bg-lime px-4 py-3.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 sm:py-4 sm:text-[12.5px]"
+            >
+              {conversion.busy && (
+                <Loader2 size={15} strokeWidth={2.6} className="animate-spin" />
+              )}
+              {conversion.busy
+                ? "Converting..."
+                : `Convert ${jobs.length === 1 ? "image" : `${jobs.length} images`} to ${conversion.format.label}`}
+            </button>
+
+            {finishing && (
+              <ResultsList
+                jobs={jobs}
+                pdfResult={pdfResult}
+                onCompare={setCompareId}
+                onDownloadAll={() => void conversion.downloadAll()}
+              />
+            )}
+
+            <p className="mt-5 flex flex-wrap items-center gap-1.5 text-[9px] tracking-[0.1em] text-muted uppercase">
+              Tip: press
+              <kbd className="border-[1.5px] border-ink bg-paper px-1 py-0.5 text-[9px] text-ink">
+                {shortcutKey}
+              </kbd>
+              <kbd className="border-[1.5px] border-ink bg-paper px-1 py-0.5 text-[9px] text-ink">
+                Enter
+              </kbd>
+              to convert, or paste an image
+            </p>
+          </div>
         </div>
       )}
 

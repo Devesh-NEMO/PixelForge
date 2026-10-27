@@ -1,42 +1,46 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans:
-    var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:
+    var(--font-jetbrains), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    monospace;
+  --font-display: var(--font-archivo), "Arial Black", system-ui, sans-serif;
 
-  --color-canvas: #080e20;
-  --color-surface: #0b1327;
-  --color-surface-2: #101a30;
-  --color-line: #1f2c48;
-  --color-line-strong: #2b3a5b;
-  --color-ink: #ffffff;
-  --color-muted: #9db8e0;
-  --color-faint: #7a94ba;
-  --color-brand: #5550fe;
-  --color-brand-hover: #6a64ff;
-  --color-brand-soft: #8b5cf6;
-  --color-periwinkle: #8b93e8;
-  --color-danger: #f87171;
-
-  --radius-card: 22px;
+  --color-paper: #efeee8;
+  --color-paper-2: #ffffff;
+  --color-ink: #0b0b0b;
+  --color-muted: #5c5b54;
+  --color-lime: #c9ff3d;
+  --color-danger: #c8402a;
 }
 
 @layer base {
   html {
+    color-scheme: light;
     scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--color-canvas);
+    background-color: var(--color-paper);
     color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  button,
+  ::selection {
+    background-color: var(--color-lime);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
   input,
-  select {
+  button,
+  select,
+  textarea {
     font: inherit;
   }
 
@@ -44,51 +48,44 @@
     cursor: pointer;
   }
 
-  ::selection {
-    background-color: color-mix(in srgb, var(--color-brand) 48%, transparent);
-    color: #fff;
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-brand);
-    outline-offset: 3px;
-  }
-
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--color-canvas);
+    background: var(--color-paper);
+    border-left: 1.5px solid var(--color-ink);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #1e2a44;
-    border-radius: 999px;
+    background: var(--color-ink);
   }
 }
 
-/* The "in seconds." headline gradient */
-@utility text-gradient {
-  background-image: linear-gradient(
-    93deg,
-    #a83efa 0%,
-    #7b40fc 35%,
-    #5847ff 65%,
-    #4849f9 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Press interaction: the block drops onto its shadow */
+@utility press {
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background-color 120ms ease;
 }
 
-/* Subtle blue-violet wash inside the drop card */
-@utility card-wash {
-  background-color: #0b1327;
-  background-image: radial-gradient(
-    120% 60% at 50% -8%,
-    rgba(85, 80, 254, 0.025) 0%,
-    rgba(85, 80, 254, 0) 62%
-  );
+/* Faint engineering grid for the page background */
+@utility grid-paper {
+  background-image:
+    linear-gradient(to right, rgba(11, 11, 11, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 11, 11, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Lime highlight block behind a word */
+@utility mark {
+  display: inline-block;
+  background: var(--color-lime);
+  border: 3px solid var(--color-ink);
+  padding: 0 0.1em 0.02em;
+  box-shadow: 6px 6px 0 var(--color-ink);
+  transform: rotate(-1.2deg);
+  line-height: 0.95;
 }

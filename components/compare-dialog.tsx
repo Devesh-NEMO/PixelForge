@@ -49,41 +49,41 @@ export function CompareDialog({
       role="dialog"
       aria-modal="true"
       aria-labelledby="compare-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#03060f]/85 px-4 py-6 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 px-4 py-6"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[720px] overflow-hidden rounded-[24px] border border-line bg-surface p-5 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] sm:p-7"
+        className="w-full max-w-[720px] border-2 border-ink bg-paper-2 p-4 shadow-[10px_10px_0_var(--color-ink)] sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-4 border-b-2 border-ink pb-3">
           <div className="min-w-0">
             <h2
               id="compare-title"
-              className="truncate text-[17px] font-bold tracking-[-0.01em] text-ink"
+              className="truncate font-display text-[16px] tracking-[-0.01em] uppercase sm:text-[18px]"
             >
               {name}
             </h2>
-            <p className="mt-1 text-[12.5px] font-medium text-muted">
-              Drag the handle to compare the converted result with the original
+            <p className="mt-1 text-[9px] tracking-[0.12em] text-muted uppercase">
+              Drag to compare original / converted
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close comparison"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-ink"
+            className="press grid h-8 w-8 shrink-0 place-items-center border-[1.5px] border-ink bg-paper hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]"
           >
-            <X size={16} />
+            <X size={15} strokeWidth={2.6} />
           </button>
         </div>
 
-        <div className="relative mt-5 overflow-hidden rounded-[16px] border border-line bg-[#070d1c]">
+        <div className="relative mt-4 overflow-hidden border-[1.5px] border-ink bg-paper">
           {/* The original drives the layout box; the conversion is clipped over it. */}
           <img
             src={original.url}
             alt="Original"
-            className="block max-h-[58vh] w-full object-contain"
+            className="block max-h-[56vh] w-full object-contain"
           />
           <div
             className="absolute inset-0"
@@ -97,7 +97,7 @@ export function CompareDialog({
           </div>
           <div
             aria-hidden
-            className="absolute inset-y-0 w-[2px] -translate-x-[1px] bg-white/70"
+            className="absolute inset-y-0 w-[2px] -translate-x-[1px] bg-ink"
             style={{ left: `${position}%` }}
           />
         </div>
@@ -109,16 +109,16 @@ export function CompareDialog({
           value={position}
           aria-label="Comparison position"
           onChange={(event) => setPosition(Number(event.target.value))}
-          className="mt-4 w-full accent-brand"
+          className="mt-3 h-6 w-full accent-ink"
         />
 
-        <div className="flex flex-wrap items-center justify-between gap-2 text-[12px] font-medium">
-          <span className="text-faint">
-            Converted · {dimensionLabel(converted)} ·{" "}
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[9px] tracking-[0.08em] text-muted uppercase">
+          <span>
+            Converted / {dimensionLabel(converted)} /{" "}
             {formatBytes(converted.size)}
           </span>
-          <span className="text-faint">
-            Original · {dimensionLabel(original)} · {formatBytes(original.size)}
+          <span>
+            Original / {dimensionLabel(original)} / {formatBytes(original.size)}
           </span>
         </div>
       </div>

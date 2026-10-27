@@ -10,31 +10,29 @@ type PreviewGridProps = {
 
 export function PreviewGrid({ jobs, onRemove, onAdd }: PreviewGridProps) {
   return (
-    <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
       {jobs.map((job) => (
         <figure
           key={job.id}
-          className="group relative overflow-hidden rounded-[14px] border border-line bg-[#070d1c]"
+          className="group relative overflow-hidden border-[1.5px] border-ink bg-paper"
         >
           {/* Blob URLs are local only, so next/image optimisation is not used. */}
           <img
             src={job.previewUrl}
             alt={job.name}
-            className="h-[110px] w-full object-cover sm:h-[124px]"
+            className="h-[96px] w-full border-b-[1.5px] border-ink object-cover sm:h-[118px]"
           />
           <button
             type="button"
             onClick={() => onRemove(job.id)}
             aria-label={`Remove ${job.name}`}
-            className="absolute top-2 right-2 grid h-7 w-7 place-items-center rounded-full bg-black/60 text-white/80 opacity-0 transition group-hover:opacity-100 hover:bg-black/85 hover:text-white focus-visible:opacity-100"
+            className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center border-[1.5px] border-ink bg-paper-2 opacity-0 transition group-hover:opacity-100 hover:bg-lime focus-visible:opacity-100"
           >
-            <X size={13} />
+            <X size={13} strokeWidth={2.6} />
           </button>
-          <figcaption className="flex items-center justify-between gap-2 border-t border-line/70 bg-surface-2/60 px-2.5 py-1.5">
-            <span className="truncate text-[11.5px] font-medium text-muted">
-              {job.name}
-            </span>
-            <span className="shrink-0 text-[10.5px] font-semibold text-faint">
+          <figcaption className="flex items-center justify-between gap-2 px-2 py-1.5">
+            <span className="truncate text-[10px] text-ink">{job.name}</span>
+            <span className="shrink-0 text-[9px] tracking-[0.06em] text-muted uppercase">
               {job.width
                 ? `${job.width}\u00d7${job.height}`
                 : formatBytes(job.size)}
@@ -46,10 +44,10 @@ export function PreviewGrid({ jobs, onRemove, onAdd }: PreviewGridProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="grid min-h-[88px] place-items-center rounded-[14px] border border-dashed border-line text-faint transition-colors hover:border-brand/60 hover:text-ink"
+        className="press grid min-h-[80px] place-items-center border-[1.5px] border-dashed border-ink/50 text-muted hover:border-solid hover:border-ink hover:bg-lime hover:text-ink hover:shadow-[3px_3px_0_var(--color-ink)]"
       >
-        <span className="flex flex-col items-center gap-1 text-[11.5px] font-semibold">
-          <Plus size={16} />
+        <span className="flex flex-col items-center gap-1.5 text-[9.5px] tracking-[0.1em] uppercase">
+          <Plus size={16} strokeWidth={2.6} />
           Add images
         </span>
       </button>

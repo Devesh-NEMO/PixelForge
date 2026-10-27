@@ -1,17 +1,13 @@
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/[0.06] px-6 pt-[26px] pb-[45px]">
-      <p className="text-center text-[15px] font-medium text-faint">
-        PixelForge
-        <span aria-hidden className="px-[3px] text-faint/60">
-          &middot;
+    <footer className="border-t-2 border-ink bg-paper">
+      <div className="mx-auto flex w-full max-w-[1180px] flex-col items-start justify-center gap-1 px-5 py-3.5 text-[9.5px] tracking-[0.12em] text-muted uppercase sm:h-[68px] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-10 sm:py-0">
+        <span>PixelForge — Convert, edit and enjoy your images</span>
+        <span className="flex gap-5">
+          <span>v1.0</span>
+          <span>No uploads</span>
         </span>
-        Convert, edit and enjoy your images
-        <span aria-hidden className="px-[3px] text-faint/60">
-          &middot;
-        </span>
-        v1.0
-      </p>
+      </div>
     </footer>
   );
 }

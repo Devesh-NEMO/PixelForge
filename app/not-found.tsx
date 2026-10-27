@@ -1,26 +1,28 @@
 import Link from "next/link";
-import { ArrowLeft, ImageOff } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <span className="grid h-14 w-14 place-items-center rounded-[18px] border border-line bg-surface text-brand-soft">
-        <ImageOff size={24} />
-      </span>
-      <h1 className="mt-5 text-[24px] font-bold tracking-[-0.02em] text-ink">
-        Nothing to convert here
-      </h1>
-      <p className="mt-2 max-w-sm text-[14px] font-medium text-muted">
-        That page does not exist. Head back to the converter and drop an image
-        in.
-      </p>
-      <Link
-        href="/"
-        className="mt-6 inline-flex h-11 items-center gap-2 rounded-[12px] bg-[#5550fe] px-5 text-[14px] font-semibold text-white transition hover:brightness-110"
-      >
-        <ArrowLeft size={15} />
-        Back to PixelForge
-      </Link>
+    <div className="grid-paper flex min-h-screen items-center justify-center bg-paper px-5">
+      <div className="w-full max-w-[480px] border-2 border-ink bg-paper-2 p-6 shadow-[8px_8px_0_var(--color-ink)]">
+        <p className="text-[9px] tracking-[0.16em] text-muted uppercase">
+          Error / 404
+        </p>
+        <h1 className="mt-2 font-display text-[26px] tracking-[-0.02em] uppercase">
+          Nothing to convert here
+        </h1>
+        <p className="mt-2 text-[11px] leading-relaxed text-muted">
+          That page doesn&apos;t exist. Head back to the converter and drop an
+          image in.
+        </p>
+        <Link
+          href="/"
+          className="press mt-5 inline-flex items-center gap-2 border-2 border-ink bg-lime px-4 py-2.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)]"
+        >
+          <ArrowLeft size={14} strokeWidth={2.6} />
+          Back to PixelForge
+        </Link>
+      </div>
     </div>
   );
 }

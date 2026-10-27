@@ -18,43 +18,41 @@ export function ResultsList({
   const finished = jobs.filter((job) => job.status === "done");
 
   return (
-    <div className="mt-6 border-t border-line pt-5">
+    <div className="mt-6 border-t-2 border-ink pt-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[11.5px] font-bold tracking-[0.14em] text-faint uppercase">
-          Results
-        </p>
+        <p className="text-[9.5px] tracking-[0.16em] uppercase">Results</p>
         {!pdfResult && finished.length > 1 && (
           <button
             type="button"
             onClick={onDownloadAll}
-            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[12.5px] font-semibold text-muted transition-colors hover:border-brand/60 hover:text-ink"
+            className="press inline-flex items-center gap-1.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase hover:-translate-y-[1px] hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]"
           >
-            <FileArchive size={13} />
+            <FileArchive size={12} strokeWidth={2.4} />
             Download all ({finished.length})
           </button>
         )}
       </div>
 
-      <div className="mt-3 space-y-2.5">
+      <div className="mt-3 space-y-2">
         {pdfResult && (
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-line bg-surface-2/40 px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-[1.5px] border-ink bg-paper px-3 py-2.5">
             <div className="min-w-0">
-              <p className="truncate text-[13.5px] font-semibold text-ink">
+              <p className="truncate text-[11.5px] font-bold">
                 {pdfResult.name}
               </p>
-              <p className="mt-0.5 text-[12px] font-medium text-faint">
+              <p className="mt-0.5 text-[9px] tracking-[0.06em] text-muted uppercase">
                 {pdfResult.pages} {pdfResult.pages === 1 ? "page" : "pages"}
-                {" \u00b7 "}
+                {" / "}
                 {formatBytes(pdfResult.size)}
-                {" \u00b7 flattened to JPEG"}
+                {" / flattened to JPEG"}
               </p>
             </div>
             <a
               href={pdfResult.url}
               download={pdfResult.name}
-              className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-brand px-4 text-[12.5px] font-semibold text-white transition hover:bg-brand-hover"
+              className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-lime px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase shadow-[2px_2px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_var(--color-ink)]"
             >
-              <Download size={13} />
+              <Download size={12} strokeWidth={2.6} />
               Download
             </a>
           </div>
@@ -71,13 +69,13 @@ export function ResultsList({
               return (
                 <div
                   key={job.id}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-line bg-surface-2/40 px-4 py-3"
+                  className="flex flex-wrap items-center justify-between gap-3 border-[1.5px] border-ink bg-paper px-3 py-2.5"
                 >
                   <div className="min-w-0">
-                    <p className="truncate text-[13.5px] font-semibold text-ink">
+                    <p className="truncate text-[11.5px] font-bold">
                       {job.outputName ?? job.name}
                     </p>
-                    <p className="mt-0.5 text-[12px] font-medium text-faint">
+                    <p className="mt-0.5 text-[9px] tracking-[0.06em] text-muted uppercase">
                       {job.status === "error" ? (
                         <span className="text-danger">{job.error}</span>
                       ) : job.status === "converting" ? (
@@ -87,9 +85,9 @@ export function ResultsList({
                           {job.outWidth}
                           {"\u00d7"}
                           {job.outHeight}
-                          {" \u00b7 "}
+                          {" / "}
                           {formatBytes(job.output.size)}
-                          {" \u00b7 "}
+                          {" / "}
                           {delta?.larger
                             ? `${delta.percent}% larger`
                             : delta?.same
@@ -98,11 +96,11 @@ export function ResultsList({
                           {job.outputLossy &&
                           job.outputQuality != null &&
                           job.outputQuality < 0.999
-                            ? ` \u00b7 q${Math.round(job.outputQuality * 100)}`
+                            ? ` / q${Math.round(job.outputQuality * 100)}`
                             : ""}
                           {job.targetMissed && (
-                            <span className="text-[#f0b45f]">
-                              {" \u00b7 target not reached"}
+                            <span className="text-danger">
+                              {" / target not reached"}
                             </span>
                           )}
                         </>
@@ -119,7 +117,7 @@ export function ResultsList({
                         <button
                           type="button"
                           onClick={() => onCompare(job.id)}
-                          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-line px-3.5 text-[12.5px] font-semibold text-muted transition-colors hover:border-line-strong hover:text-ink"
+                          className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-paper-2 px-2.5 py-1.5 text-[9px] tracking-[0.1em] uppercase hover:bg-paper hover:shadow-[2px_2px_0_var(--color-ink)]"
                         >
                           Compare
                         </button>
@@ -129,16 +127,13 @@ export function ResultsList({
                       <a
                         href={job.outputUrl}
                         download={job.outputName}
-                        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-brand px-4 text-[12.5px] font-semibold text-white transition hover:bg-brand-hover"
+                        className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-lime px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase shadow-[2px_2px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_var(--color-ink)]"
                       >
-                        <Download size={13} />
+                        <Download size={12} strokeWidth={2.6} />
                         Download
                       </a>
                     ) : job.status === "converting" ? (
-                      <Loader2
-                        size={16}
-                        className="shrink-0 animate-spin text-brand-soft"
-                      />
+                      <Loader2 size={14} className="shrink-0 animate-spin" />
                     ) : null}
                   </div>
                 </div>

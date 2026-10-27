@@ -1,4 +1,3 @@
-import { Target } from "lucide-react";
 import { cn } from "../../lib/cn";
 import type { OutputFormat } from "../../lib/formats";
 
@@ -14,6 +13,8 @@ type OutputSettingsProps = {
   onBackgroundColorChange: (value: string) => void;
 };
 
+const label = "text-[9px] tracking-[0.14em] uppercase sm:text-[9.5px]";
+
 export function OutputSettings({
   format,
   quality,
@@ -26,13 +27,15 @@ export function OutputSettings({
   onBackgroundColorChange,
 }: OutputSettingsProps) {
   return (
-    <div className="space-y-4 rounded-[14px] border border-line bg-surface-2/30 p-4">
+    <div className="space-y-4 border-[1.5px] border-ink bg-paper p-3 sm:p-4">
       {format.lossy ? (
         <>
           <label className="block">
-            <span className="flex items-center justify-between text-[12.5px] font-semibold text-muted">
+            <span className={cn("flex items-center justify-between", label)}>
               Quality
-              <span className="text-ink">{quality}%</span>
+              <span className="text-[10.5px] font-bold text-ink">
+                {quality}%
+              </span>
             </span>
             <input
               type="range"
@@ -40,17 +43,14 @@ export function OutputSettings({
               max={100}
               value={quality}
               onChange={(event) => onQualityChange(Number(event.target.value))}
-              className="mt-2 w-full accent-brand"
+              className="mt-2.5 h-6 w-full accent-ink"
             />
           </label>
 
           {format.kind !== "pdf" && (
             <div>
               <div className="flex items-center justify-between gap-3">
-                <span className="flex items-center gap-2 text-[12.5px] font-semibold text-muted">
-                  <Target size={14} className="text-brand-soft" />
-                  Target file size
-                </span>
+                <span className={label}>Target file size</span>
                 <button
                   type="button"
                   role="switch"
@@ -58,14 +58,14 @@ export function OutputSettings({
                   aria-label="Target file size"
                   onClick={() => onTargetEnabledChange(!targetEnabled)}
                   className={cn(
-                    "relative h-5 w-9 shrink-0 rounded-full transition-colors",
-                    targetEnabled ? "bg-brand" : "bg-line"
+                    "relative h-6 w-12 shrink-0 border-[1.5px] border-ink",
+                    targetEnabled ? "bg-lime" : "bg-paper-2"
                   )}
                 >
                   <span
                     className={cn(
-                      "absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all",
-                      targetEnabled ? "left-[18px]" : "left-0.5"
+                      "absolute top-[2px] h-[16px] w-[16px] border-[1.5px] border-ink bg-ink transition-all",
+                      targetEnabled ? "left-[26px]" : "left-[2px]"
                     )}
                   />
                 </button>
@@ -84,10 +84,10 @@ export function OutputSettings({
                         )
                       )
                     }
-                    className="h-9 w-24 rounded-[10px] border border-line bg-canvas px-3 text-[13px] font-semibold text-ink focus:border-brand/70 focus:outline-none"
+                    className="h-9 w-20 border-[1.5px] border-ink bg-paper-2 px-2.5 text-[11.5px] font-semibold text-ink"
                   />
-                  <span className="text-[12px] font-medium text-faint">
-                    KB max · quality adapts to fit
+                  <span className="text-[9px] tracking-[0.08em] text-muted uppercase">
+                    KB max / quality adapts
                   </span>
                 </div>
               )}
@@ -95,25 +95,23 @@ export function OutputSettings({
           )}
         </>
       ) : (
-        <p className="text-[12.5px] font-medium text-faint">
-          {format.label} is lossless — quality and target size do not apply.
+        <p className="text-[9.5px] leading-relaxed tracking-[0.06em] text-muted uppercase">
+          {format.label} is lossless — quality and target size don&apos;t apply.
         </p>
       )}
 
       {(format.id === "jpg" || format.kind === "pdf") && (
         <label className="flex items-center justify-between gap-4">
-          <span className="text-[12.5px] font-semibold text-muted">
-            Background for transparency
-          </span>
+          <span className={label}>Background for transparency</span>
           <span className="flex items-center gap-2">
-            <span className="text-[12px] font-medium text-faint">
+            <span className="text-[9px] tracking-[0.08em] text-muted uppercase">
               {backgroundColor}
             </span>
             <input
               type="color"
               value={backgroundColor}
               onChange={(event) => onBackgroundColorChange(event.target.value)}
-              className="h-8 w-10 cursor-pointer rounded-md border border-line bg-transparent p-0"
+              className="h-8 w-9 cursor-pointer border-[1.5px] border-ink bg-paper-2 p-0"
             />
           </span>
         </label>

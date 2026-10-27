@@ -115,14 +115,15 @@ Open [http://localhost:3000](http://localhost:3000).
 ```
 pixelforge/
 ├── app/
-│   ├── layout.tsx           # Fonts, metadata, PWA + service worker hooks
-│   ├── page.tsx             # Landing page: hero, converter, privacy note
-│   ├── convert/page.tsx     # Legacy route — 307 redirect to /
-│   ├── error.tsx            # Route-level error boundary
-│   ├── not-found.tsx        # 404
-│   ├── icon.svg             # Favicon
-│   ├── manifest.ts          # Web app manifest
-│   └── globals.css          # Tailwind import + @theme design tokens
+│   ├── layout.tsx               # Fonts, metadata, PWA hook
+│   ├── page.tsx                 # Landing: hero, converter, privacy note
+│   ├── convert/page.tsx         # Legacy route — 307 redirect to /
+│   ├── error.tsx                # Route-level error boundary
+│   ├── not-found.tsx            # 404
+│   ├── icon.svg                 # Favicon
+│   ├── manifest.ts              # Web app manifest
+│   ├── globals.css              # Tailwind import, theme tokens, utilities
+│   └── fonts/                   # Self-hosted Archivo Black + JetBrains Mono
 ├── components/
 │   ├── image-converter.tsx      # Composition only: hooks + panels
 │   ├── converter/
@@ -131,32 +132,32 @@ pixelforge/
 │   │   ├── format-picker.tsx    # Output format pills
 │   │   ├── resize-panel.tsx     # Width/height, aspect lock, presets
 │   │   ├── output-settings.tsx  # Quality, target size, background
-│   │   ├── results-list.tsx     # Per-file results and the PDF card
-│   │   └── cloud-glyph.tsx
+│   │   └── results-list.tsx     # Per-file results and the PDF card
 │   ├── compare-dialog.tsx       # Before/after slider
-│   ├── site-header.tsx          # Wordmark + "How it works"
-│   ├── site-footer.tsx
 │   ├── how-it-works.tsx         # Modal explainer
-│   └── service-worker.tsx       # Registers /sw.js in production
+│   ├── service-worker.tsx       # Registers /sw.js in production
+│   ├── site-header.tsx
+│   └── site-footer.tsx
 ├── hooks/
 │   ├── use-image-jobs.ts        # Files, HEIC, object URLs, removal
 │   └── use-conversion.ts        # Settings + queue loop (raster & PDF)
 ├── lib/
 │   ├── formats.ts               # Format table + encoder probing
-│   ├── image.ts                 # Pure helpers (sizes, resize math, quality search)
+│   ├── image.ts                 # Pure helpers (sizes, resize, quality search)
 │   ├── pdf.ts                   # Dependency-free PDF writer (one JPEG per page)
 │   ├── job.ts                   # Job / PdfResult types
 │   ├── cn.ts                    # Class-name join
 │   ├── convert-types.ts         # Worker message contract
 │   └── convert-client.ts        # Worker orchestration + main-thread fallback
 ├── workers/convert.worker.ts
-├── tests/                   # Vitest unit tests
-├── e2e/                     # Playwright specs
-├── assets/                  # Source HTML used to render the icon and OG card
+├── tests/                       # Vitest unit tests
+├── e2e/                         # Playwright specs
 ├── public/
-│   ├── og.png               # Social card
-│   ├── sw.js                # Offline service worker
-│   └── icons/               # PWA icons
+│   ├── og.png                   # Social card
+│   ├── sw.js                    # Offline service worker
+│   └── icons/                   # PWA icons
+├── preview.png                  # Screenshots used in this README
+├── preview-converter.png
 └── .github/workflows/ci.yml
 ```
 

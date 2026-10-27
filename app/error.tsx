@@ -1,6 +1,6 @@
 "use client";
 
-import { RotateCcw, TriangleAlert } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 export default function GlobalError({
   error,
@@ -10,30 +10,32 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <span className="grid h-14 w-14 place-items-center rounded-[18px] border border-line bg-surface text-danger">
-        <TriangleAlert size={24} />
-      </span>
-      <h1 className="mt-5 text-[24px] font-bold tracking-[-0.02em] text-ink">
-        Something went wrong
-      </h1>
-      <p className="mt-2 max-w-sm text-[14px] font-medium text-muted">
-        The converter hit an unexpected error. Your files never left this
-        device, so nothing was uploaded — try again and it should recover.
-      </p>
-      {error.digest && (
-        <p className="mt-3 rounded-full border border-line px-3 py-1 text-[11px] font-semibold text-faint">
-          {error.digest}
+    <div className="grid-paper flex min-h-screen items-center justify-center bg-paper px-5">
+      <div className="w-full max-w-[480px] border-2 border-ink bg-paper-2 p-6 shadow-[8px_8px_0_var(--color-ink)]">
+        <p className="text-[9px] tracking-[0.16em] text-muted uppercase">
+          Error / 500
         </p>
-      )}
-      <button
-        type="button"
-        onClick={reset}
-        className="mt-6 inline-flex h-11 items-center gap-2 rounded-[12px] bg-[#5550fe] px-5 text-[14px] font-semibold text-white transition hover:brightness-110"
-      >
-        <RotateCcw size={15} />
-        Try again
-      </button>
+        <h1 className="mt-2 font-display text-[26px] tracking-[-0.02em] uppercase">
+          Something broke
+        </h1>
+        <p className="mt-2 text-[11px] leading-relaxed text-muted">
+          The converter hit an unexpected error. Your files never left this
+          device, so nothing was uploaded — try again and it should recover.
+        </p>
+        {error.digest && (
+          <p className="mt-3 inline-block border-[1.5px] border-ink bg-paper px-2 py-1 text-[9px] tracking-[0.08em] uppercase">
+            {error.digest}
+          </p>
+        )}
+        <button
+          type="button"
+          onClick={reset}
+          className="press mt-5 inline-flex items-center gap-2 border-2 border-ink bg-lime px-4 py-2.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)]"
+        >
+          <RotateCcw size={14} strokeWidth={2.6} />
+          Try again
+        </button>
+      </div>
     </div>
   );
 }

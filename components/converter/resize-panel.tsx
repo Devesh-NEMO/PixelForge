@@ -1,4 +1,4 @@
-import { Link as LinkIcon, Scaling, Unlink } from "lucide-react";
+import { Link as LinkIcon, Unlink } from "lucide-react";
 import { cn } from "../../lib/cn";
 import type { Dimensions } from "../../lib/image";
 
@@ -14,7 +14,6 @@ type ResizePanelProps = {
   height: string;
   keepAspect: boolean;
   sample?: { width?: number; height?: number };
-  /** The resolved output size for the first image, or null when unknown. */
   target: Dimensions | null;
   onChangeWidth: (value: string) => void;
   onChangeHeight: (value: string) => void;
@@ -39,18 +38,20 @@ export function ResizePanel({
     sample?.height != null &&
     (target.width !== sample.width || target.height !== sample.height);
 
+  const field =
+    "h-9 w-full border-[1.5px] border-ink bg-paper-2 px-2.5 text-[11.5px] font-semibold text-ink placeholder:font-normal placeholder:text-muted/60";
+
   return (
-    <div className="rounded-[14px] border border-line bg-surface-2/30 p-4">
+    <div className="border-[1.5px] border-ink bg-paper p-3 sm:p-4">
       <div className="flex items-center justify-between gap-3">
-        <span className="flex items-center gap-2 text-[12.5px] font-semibold text-muted">
-          <Scaling size={14} className="text-brand-soft" />
+        <span className="text-[9px] tracking-[0.16em] uppercase sm:text-[9.5px]">
           Resize
         </span>
         {(width || height) && (
           <button
             type="button"
             onClick={onReset}
-            className="text-[11.5px] font-semibold text-faint transition-colors hover:text-ink"
+            className="text-[9px] tracking-[0.1em] text-muted uppercase underline decoration-1 underline-offset-2 hover:text-ink"
           >
             Reset
           </button>
@@ -59,7 +60,7 @@ export function ResizePanel({
 
       <div className="mt-3 flex items-end gap-2">
         <label className="min-w-0 flex-1">
-          <span className="mb-1 block text-[10.5px] font-semibold tracking-[0.1em] text-faint uppercase">
+          <span className="mb-1 block text-[8.5px] tracking-[0.14em] text-muted uppercase">
             Width
           </span>
           <input
@@ -69,7 +70,7 @@ export function ResizePanel({
             onChange={(event) =>
               onChangeWidth(event.target.value.replace(/[^0-9]/g, ""))
             }
-            className="h-9 w-full rounded-[10px] border border-line bg-canvas px-3 text-[13px] font-semibold text-ink placeholder:text-faint/70 focus:border-brand/70 focus:outline-none"
+            className={field}
           />
         </label>
 
@@ -79,17 +80,19 @@ export function ResizePanel({
           aria-pressed={keepAspect}
           title={keepAspect ? "Aspect ratio locked" : "Aspect ratio unlocked"}
           className={cn(
-            "mb-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-[10px] border transition-colors",
-            keepAspect
-              ? "border-brand/50 bg-brand/15 text-brand-soft"
-              : "border-line text-faint hover:text-ink"
+            "press mb-0.5 grid h-9 w-9 shrink-0 place-items-center border-[1.5px] border-ink",
+            keepAspect ? "bg-lime" : "bg-paper-2 hover:bg-paper"
           )}
         >
-          {keepAspect ? <LinkIcon size={14} /> : <Unlink size={14} />}
+          {keepAspect ? (
+            <LinkIcon size={14} strokeWidth={2.4} />
+          ) : (
+            <Unlink size={14} strokeWidth={2.4} />
+          )}
         </button>
 
         <label className="min-w-0 flex-1">
-          <span className="mb-1 block text-[10.5px] font-semibold tracking-[0.1em] text-faint uppercase">
+          <span className="mb-1 block text-[8.5px] tracking-[0.14em] text-muted uppercase">
             Height
           </span>
           <input
@@ -99,7 +102,7 @@ export function ResizePanel({
             onChange={(event) =>
               onChangeHeight(event.target.value.replace(/[^0-9]/g, ""))
             }
-            className="h-9 w-full rounded-[10px] border border-line bg-canvas px-3 text-[13px] font-semibold text-ink placeholder:text-faint/70 focus:border-brand/70 focus:outline-none"
+            className={field}
           />
         </label>
       </div>
@@ -113,14 +116,14 @@ export function ResizePanel({
               onChangeWidth(String(preset.width));
               onChangeHeight(String(preset.height));
             }}
-            className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-faint transition-colors hover:border-brand/60 hover:text-ink"
+            className="press border-[1.5px] border-ink bg-paper-2 px-2 py-1 text-[8.5px] tracking-[0.08em] uppercase hover:-translate-y-[1px] hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)] sm:text-[9px]"
           >
             {preset.label}
           </button>
         ))}
       </div>
 
-      <p className="mt-2.5 text-[11.5px] font-medium text-faint">
+      <p className="mt-2.5 text-[9px] tracking-[0.08em] text-muted uppercase">
         {sample && target
           ? resized
             ? `${sample.width}\u00d7${sample.height} \u2192 ${target.width}\u00d7${target.height}`

@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { ServiceWorkerRegistrar } from "../components/service-worker";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
+const archivo = localFont({
+  src: "./fonts/archivo-black.woff2",
+  variable: "--font-archivo",
+  weight: "400",
+  display: "swap",
+});
+
+const jetbrains = localFont({
+  src: "./fonts/jetbrains-mono.woff2",
+  variable: "--font-jetbrains",
+  weight: "400 700",
   display: "swap",
 });
 
@@ -56,13 +64,13 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "PixelForge",
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#080e20",
-  colorScheme: "dark",
+  themeColor: "#efeee8",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -71,8 +79,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
-      <body className="min-h-full bg-canvas font-sans text-ink">
+    <html
+      lang="en"
+      className={`${archivo.variable} ${jetbrains.variable} h-full`}
+    >
+      <body className="min-h-full bg-paper font-mono text-ink">
         {children}
         <ServiceWorkerRegistrar />
       </body>

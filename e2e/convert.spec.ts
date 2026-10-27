@@ -18,7 +18,7 @@ test.describe("PixelForge converter", () => {
   test("converts an image and offers a download", async ({ page }) => {
     await page.goto("/");
     await expect(
-      page.getByRole("heading", { name: "Drop your image here" })
+      page.getByRole("heading", { name: "Drop image" })
     ).toBeVisible();
 
     await upload(page);

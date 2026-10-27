@@ -24,7 +24,7 @@ const pending = new Map<number, Pending>();
 
 class WorkerUnavailable extends Error {}
 
-export function supportsWorkerConversion(): boolean {
+function supportsWorkerConversion(): boolean {
   return (
     typeof Worker !== "undefined" &&
     typeof OffscreenCanvas !== "undefined" &&
