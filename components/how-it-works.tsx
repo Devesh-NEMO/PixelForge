@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Download, ImageUp, Sparkles, X } from "lucide-react";
+import { CircleHelp, Download, ImageUp, Sparkles, X } from "lucide-react";
 
 const STEPS = [
   {
@@ -45,9 +45,13 @@ export function HowItWorks() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="text-[10px] tracking-[0.12em] uppercase underline-offset-4 hover:underline"
+        aria-label="How it works"
+        className="press inline-flex h-8 items-center gap-1.5 border-[1.5px] border-ink bg-paper px-2.5 hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)]"
       >
-        How it works
+        <CircleHelp size={14} strokeWidth={2.4} />
+        <span className="hidden text-[9.5px] tracking-[0.1em] uppercase sm:inline">
+          How it works
+        </span>
       </button>
 
       {open && (
