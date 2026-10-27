@@ -124,7 +124,9 @@ pixelforge/
 │   ├── convert/page.tsx         # Legacy route — 307 redirect to /
 │   ├── error.tsx                # Route-level error boundary
 │   ├── not-found.tsx            # 404
-│   ├── icon.svg                 # Favicon
+│   ├── favicon.ico              # 16/32/48 favicon (every browser)
+│   ├── icon.svg                 # Scalable favicon (modern browsers)
+│   ├── apple-icon.png           # iOS home-screen icon
 │   ├── manifest.ts              # Web app manifest
 │   ├── globals.css              # Tailwind import, theme tokens, utilities
 │   └── fonts/                   # Self-hosted Archivo Black + JetBrains Mono

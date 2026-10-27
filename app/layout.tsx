@@ -24,7 +24,7 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "PixelForge Converter",
+  title: "PixelForge",
   description,
   applicationName: "PixelForge",
   keywords: [
@@ -58,9 +58,6 @@ export const metadata: Metadata = {
     images: ["/og.png"],
   },
   manifest: "/manifest.webmanifest",
-  icons: {
-    apple: [{ url: "/icons/icon-192.png", sizes: "192x192" }],
-  },
   appleWebApp: {
     capable: true,
     title: "PixelForge",
