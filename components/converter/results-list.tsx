@@ -25,7 +25,7 @@ export function ResultsList({
           <button
             type="button"
             onClick={onDownloadAll}
-            className="press inline-flex items-center gap-1.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase hover:-translate-y-[1px] hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]"
+            className="press inline-flex items-center gap-1.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase hover:-translate-y-[1px] hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)]"
           >
             <FileArchive size={12} strokeWidth={2.4} />
             Download all ({finished.length})
@@ -50,7 +50,7 @@ export function ResultsList({
             <a
               href={pdfResult.url}
               download={pdfResult.name}
-              className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-lime px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase shadow-[2px_2px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_var(--color-ink)]"
+              className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink lime-fill px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase shadow-[2px_2px_0_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_var(--shadow-color)]"
             >
               <Download size={12} strokeWidth={2.6} />
               Download
@@ -117,7 +117,7 @@ export function ResultsList({
                         <button
                           type="button"
                           onClick={() => onCompare(job.id)}
-                          className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-paper-2 px-2.5 py-1.5 text-[9px] tracking-[0.1em] uppercase hover:bg-paper hover:shadow-[2px_2px_0_var(--color-ink)]"
+                          className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-paper-2 px-2.5 py-1.5 text-[9px] tracking-[0.1em] uppercase hover:bg-paper hover:shadow-[2px_2px_0_var(--shadow-color)]"
                         >
                           Compare
                         </button>
@@ -127,7 +127,7 @@ export function ResultsList({
                       <a
                         href={job.outputUrl}
                         download={job.outputName}
-                        className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink bg-lime px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase shadow-[2px_2px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_var(--color-ink)]"
+                        className="press inline-flex shrink-0 items-center gap-1.5 border-[1.5px] border-ink lime-fill px-3 py-1.5 text-[9px] tracking-[0.1em] uppercase shadow-[2px_2px_0_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_var(--shadow-color)]"
                       >
                         <Download size={12} strokeWidth={2.6} />
                         Download

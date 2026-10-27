@@ -10,7 +10,7 @@ export default function Home() {
       <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col justify-center px-5 py-9 sm:px-10 sm:py-12">
         <section>
           <span className="inline-flex items-center gap-2 border-[1.5px] border-ink bg-paper-2 px-2.5 py-1.5 text-[9.5px] tracking-[0.14em] uppercase sm:text-[10px]">
-            <span className="h-[7px] w-[7px] border-[1.5px] border-ink bg-lime" />
+            <span className="h-[7px] w-[7px] border-[1.5px] border-ink lime-fill" />
             100% local — no uploads
           </span>
 
@@ -31,7 +31,7 @@ export default function Home() {
         </div>
 
         <p className="mt-5 mb-8 flex items-center gap-2 text-[10px] tracking-[0.12em] text-muted uppercase sm:text-[10.5px]">
-          <span className="h-[9px] w-[9px] border-[1.5px] border-ink bg-lime" />
+          <span className="h-[9px] w-[9px] border-[1.5px] border-ink lime-fill" />
           Files never leave your device
         </p>
       </main>

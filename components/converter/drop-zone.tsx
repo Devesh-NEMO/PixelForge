@@ -24,11 +24,11 @@ export function DropZone({
     <div
       onClick={onBrowse}
       className={cn(
-        "relative cursor-pointer border-2 border-ink p-5 shadow-[8px_8px_0_var(--color-ink)] sm:p-9 sm:shadow-[10px_10px_0_var(--color-ink)]",
+        "relative cursor-pointer border-2 border-ink p-5 shadow-[8px_8px_0_var(--shadow-color)] sm:p-9 sm:shadow-[10px_10px_0_var(--shadow-color)]",
         dragging ? "bg-lime/25" : "bg-paper-2"
       )}
     >
-      <span className="absolute -top-[11px] left-4 border-[1.5px] border-ink bg-lime px-2 py-[2px] text-[9px] tracking-[0.14em] uppercase sm:left-5">
+      <span className="absolute -top-[11px] left-4 border-[1.5px] border-ink lime-fill px-2 py-[2px] text-[9px] tracking-[0.14em] uppercase sm:left-5">
         Drop zone — 01
       </span>
 
@@ -49,7 +49,7 @@ export function DropZone({
               event.stopPropagation();
               onBrowse();
             }}
-            className="press inline-flex items-center gap-2 border-2 border-ink bg-lime px-4 py-3 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none sm:px-5 sm:py-3.5 sm:text-[12.5px]"
+            className="press inline-flex items-center gap-2 border-2 border-ink lime-fill px-4 py-3 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--shadow-color)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none sm:px-5 sm:py-3.5 sm:text-[12.5px]"
           >
             Choose image
             <ArrowUpRight size={15} strokeWidth={2.6} />
@@ -72,7 +72,7 @@ export function DropZone({
                       ? `Convert to ${badge}`
                       : `${badge} output is not supported by browsers`
                   }
-                  className="press border-[1.5px] border-ink bg-paper px-2 py-1 text-[9px] tracking-[0.1em] uppercase hover:-translate-y-[1px] hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)] sm:text-[10px]"
+                  className="press border-[1.5px] border-ink bg-paper px-2 py-1 text-[9px] tracking-[0.1em] uppercase hover:-translate-y-[1px] hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)] sm:text-[10px]"
                 >
                   {badge}
                 </button>

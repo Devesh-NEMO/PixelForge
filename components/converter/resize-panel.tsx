@@ -81,7 +81,7 @@ export function ResizePanel({
           title={keepAspect ? "Aspect ratio locked" : "Aspect ratio unlocked"}
           className={cn(
             "press mb-0.5 grid h-9 w-9 shrink-0 place-items-center border-[1.5px] border-ink",
-            keepAspect ? "bg-lime" : "bg-paper-2 hover:bg-paper"
+            keepAspect ? "lime-fill" : "bg-paper-2 hover:bg-paper"
           )}
         >
           {keepAspect ? (
@@ -116,7 +116,7 @@ export function ResizePanel({
               onChangeWidth(String(preset.width));
               onChangeHeight(String(preset.height));
             }}
-            className="press border-[1.5px] border-ink bg-paper-2 px-2 py-1 text-[8.5px] tracking-[0.08em] uppercase hover:-translate-y-[1px] hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)] sm:text-[9px]"
+            className="press border-[1.5px] border-ink bg-paper-2 px-2 py-1 text-[8.5px] tracking-[0.08em] uppercase hover:-translate-y-[1px] hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)] sm:text-[9px]"
           >
             {preset.label}
           </button>

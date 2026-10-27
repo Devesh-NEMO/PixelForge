@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 export default function NotFound() {
   return (
     <div className="grid-paper flex min-h-screen items-center justify-center bg-paper px-5">
-      <div className="w-full max-w-[480px] border-2 border-ink bg-paper-2 p-6 shadow-[8px_8px_0_var(--color-ink)]">
+      <div className="w-full max-w-[480px] border-2 border-ink bg-paper-2 p-6 shadow-[8px_8px_0_var(--shadow-color)]">
         <p className="text-[9px] tracking-[0.16em] text-muted uppercase">
           Error / 404
         </p>
@@ -17,7 +17,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="press mt-5 inline-flex items-center gap-2 border-2 border-ink bg-lime px-4 py-2.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)]"
+          className="press mt-5 inline-flex items-center gap-2 border-2 border-ink lime-fill px-4 py-2.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--shadow-color)]"
         >
           <ArrowLeft size={14} strokeWidth={2.6} />
           Back to PixelForge

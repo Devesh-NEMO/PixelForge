@@ -52,14 +52,14 @@ export function HowItWorks() {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 px-4 py-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--scrim)] px-4 py-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="how-it-works-title"
           onClick={() => setOpen(false)}
         >
           <div
-            className="w-full max-w-[520px] border-2 border-ink bg-paper-2 p-5 shadow-[10px_10px_0_var(--color-ink)] sm:p-6"
+            className="w-full max-w-[520px] border-2 border-ink bg-paper-2 p-5 shadow-[10px_10px_0_var(--shadow-color)] sm:p-6"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4 border-b-2 border-ink pb-3">
@@ -78,7 +78,7 @@ export function HowItWorks() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close"
-                className="press grid h-8 w-8 shrink-0 place-items-center border-[1.5px] border-ink bg-paper hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]"
+                className="press grid h-8 w-8 shrink-0 place-items-center border-[1.5px] border-ink bg-paper hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)]"
               >
                 <X size={15} strokeWidth={2.6} />
               </button>
@@ -90,7 +90,7 @@ export function HowItWorks() {
                   key={step.title}
                   className="flex gap-3 border-[1.5px] border-ink bg-paper p-3"
                 >
-                  <span className="grid h-9 w-9 shrink-0 place-items-center border-[1.5px] border-ink bg-lime">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center border-[1.5px] border-ink lime-fill">
                     <step.icon size={16} strokeWidth={2.2} />
                   </span>
                   <div>
@@ -111,7 +111,7 @@ export function HowItWorks() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="press mt-4 w-full border-2 border-ink bg-lime py-3 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
+              className="press mt-4 w-full border-2 border-ink lime-fill py-3 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--shadow-color)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
             >
               Got it
             </button>

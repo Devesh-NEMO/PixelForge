@@ -81,4 +81,21 @@ test.describe("PixelForge converter", () => {
     await expect(download).toHaveAttribute("href", /^blob:/);
     await expect(page.getByText(/2 pages/)).toBeVisible();
   });
+
+  test("toggles dark mode and remembers the choice", async ({ page }) => {
+    await page.goto("/");
+    const html = page.locator("html");
+
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await page.getByRole("button", { name: "Toggle dark mode" }).click();
+    await expect(html).toHaveAttribute("data-theme", "dark");
+
+    const background = await page.evaluate(
+      () => getComputedStyle(document.body).backgroundColor
+    );
+    expect(background).toBe("rgb(18, 18, 16)");
+
+    await page.reload();
+    await expect(html).toHaveAttribute("data-theme", "dark");
+  });
 });

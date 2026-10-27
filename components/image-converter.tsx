@@ -67,7 +67,7 @@ export function ImageConverter() {
   };
 
   const ghostButton =
-    "press inline-flex h-8 items-center gap-1.5 border-[1.5px] border-ink bg-paper px-2.5 text-[9px] tracking-[0.1em] uppercase hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]";
+    "press inline-flex h-8 items-center gap-1.5 border-[1.5px] border-ink bg-paper px-2.5 text-[9px] tracking-[0.1em] uppercase hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)]";
 
   return (
     <div
@@ -99,7 +99,7 @@ export function ImageConverter() {
       ) : (
         <div
           className={cn(
-            "border-2 border-ink shadow-[8px_8px_0_var(--color-ink)] sm:shadow-[10px_10px_0_var(--color-ink)]",
+            "border-2 border-ink shadow-[8px_8px_0_var(--shadow-color)] sm:shadow-[10px_10px_0_var(--shadow-color)]",
             dragging ? "bg-lime/20" : "bg-paper-2"
           )}
         >
@@ -195,7 +195,7 @@ export function ImageConverter() {
               type="button"
               onClick={conversion.handleConvert}
               disabled={conversion.busy || preparing}
-              className="press mt-5 flex w-full items-center justify-center gap-2.5 border-2 border-ink bg-lime px-4 py-3.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--color-ink)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--color-ink)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 sm:py-4 sm:text-[12.5px]"
+              className="press mt-5 flex w-full items-center justify-center gap-2.5 border-2 border-ink lime-fill px-4 py-3.5 font-display text-[11px] tracking-[0.05em] uppercase shadow-[4px_4px_0_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_var(--shadow-color)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 sm:py-4 sm:text-[12.5px]"
             >
               {conversion.busy && (
                 <Loader2 size={15} strokeWidth={2.6} className="animate-spin" />

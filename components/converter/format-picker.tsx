@@ -27,8 +27,8 @@ export function FormatPicker({ formats, value, onSelect }: FormatPickerProps) {
               className={cn(
                 "press inline-flex items-center gap-1.5 border-[1.5px] border-ink px-2.5 py-2 text-[10px] tracking-[0.1em] uppercase",
                 active
-                  ? "bg-lime shadow-[3px_3px_0_var(--color-ink)]"
-                  : "bg-paper-2 hover:-translate-y-[1px] hover:bg-paper hover:shadow-[2px_2px_0_var(--color-ink)]"
+                  ? "lime-fill shadow-[3px_3px_0_var(--shadow-color)]"
+                  : "bg-paper-2 hover:-translate-y-[1px] hover:bg-paper hover:shadow-[2px_2px_0_var(--shadow-color)]"
               )}
             >
               {active && <Check size={12} strokeWidth={3} />}

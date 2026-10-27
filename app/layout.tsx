@@ -69,9 +69,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#efeee8",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#efeee8" },
+    { media: "(prefers-color-scheme: dark)", color: "#121210" },
+  ],
   colorScheme: "light",
 };
+
+/**
+ * Runs before the body paints so the stored (or system) theme is applied
+ * without a flash of the wrong colours.
+ */
+const themeScript = `(function(){try{var k="pixelforge-theme";var s=localStorage.getItem(k);var t=s==="light"||s==="dark"?s:(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");var d=document.documentElement;d.dataset.theme=t;d.style.colorScheme=t;}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -81,9 +90,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${archivo.variable} ${jetbrains.variable} h-full`}
     >
       <body className="min-h-full bg-paper font-mono text-ink">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {children}
         <ServiceWorkerRegistrar />
       </body>

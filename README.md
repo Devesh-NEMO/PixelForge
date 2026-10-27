@@ -16,9 +16,11 @@ locally with the Canvas API.
 
 </div>
 
-![PixelForge landing page](preview.png)
+![PixelForge landing page in light mode](preview.png)
 
-![PixelForge converting a batch to WebP](preview-converter.png)
+![PixelForge landing page in dark mode](preview-dark.png)
+
+![PixelForge converting a batch to PDF](preview-converter.png)
 
 ---
 
@@ -42,6 +44,8 @@ locally with the Canvas API.
 - **Paste, drag, or browse** — `Ctrl/⌘ + V` adds an image from the clipboard,
   dropping works anywhere on the card, and `Ctrl/⌘ + Enter` converts.
 - **Shareable presets** — `/?format=webp&q=80&w=1280` pre-configures the tool.
+- **Light and dark themes** — a header toggle that follows your OS preference on
+  first visit, then remembers your choice in `localStorage` (no flash on reload).
 - **Works offline** — a service worker caches the shell, so the app keeps
   working without a connection.
 
@@ -133,6 +137,7 @@ pixelforge/
 │   │   ├── resize-panel.tsx     # Width/height, aspect lock, presets
 │   │   ├── output-settings.tsx  # Quality, target size, background
 │   │   └── results-list.tsx     # Per-file results and the PDF card
+│   ├── theme-toggle.tsx         # Light/dark switch (localStorage + system default)
 │   ├── compare-dialog.tsx       # Before/after slider
 │   ├── how-it-works.tsx         # Modal explainer
 │   ├── service-worker.tsx       # Registers /sw.js in production

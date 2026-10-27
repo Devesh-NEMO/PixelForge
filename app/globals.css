@@ -6,13 +6,37 @@
     monospace;
   --font-display: var(--font-archivo), "Arial Black", system-ui, sans-serif;
 
+  /* Light theme (default) */
   --color-paper: #efeee8;
   --color-paper-2: #ffffff;
   --color-ink: #0b0b0b;
   --color-muted: #5c5b54;
   --color-lime: #c9ff3d;
+  /* Text/icons that sit on the lime accent — constant in both themes */
+  --color-on-accent: #0b0b0b;
   --color-danger: #c8402a;
 }
+
+/* Theme-dependent values that are not colour utilities */
+:root {
+  --shadow-color: #0b0b0b;
+  --grid-line: rgba(11, 11, 11, 0.045);
+  --scrim: rgba(11, 11, 11, 0.72);
+}
+
+html[data-theme="dark"] {
+  --color-paper: #121210;
+  --color-paper-2: #1c1c18;
+  --color-ink: #f2f2e7;
+  --color-muted: #a1a196;
+  --color-danger: #ff7a5c;
+  --shadow-color: rgba(242, 242, 231, 0.16);
+  --grid-line: rgba(242, 242, 231, 0.05);
+  --scrim: rgba(0, 0, 0, 0.78);
+}
+
+/* Theme variant bound to <html data-theme> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @layer base {
   html {
@@ -29,7 +53,7 @@
 
   ::selection {
     background-color: var(--color-lime);
-    color: var(--color-ink);
+    color: var(--color-on-accent);
   }
 
   :focus-visible {
@@ -63,19 +87,26 @@
   }
 }
 
+/* Accent surface: lime background always takes dark text, in both themes */
+@utility lime-fill {
+  background-color: var(--color-lime);
+  color: var(--color-on-accent);
+}
+
 /* Press interaction: the block drops onto its shadow */
 @utility press {
   transition:
     transform 120ms ease,
     box-shadow 120ms ease,
-    background-color 120ms ease;
+    background-color 120ms ease,
+    color 120ms ease;
 }
 
 /* Faint engineering grid for the page background */
 @utility grid-paper {
   background-image:
-    linear-gradient(to right, rgba(11, 11, 11, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(11, 11, 11, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
@@ -83,9 +114,10 @@
 @utility mark {
   display: inline-block;
   background: var(--color-lime);
+  color: var(--color-on-accent);
   border: 3px solid var(--color-ink);
   padding: 0 0.1em 0.02em;
-  box-shadow: 6px 6px 0 var(--color-ink);
+  box-shadow: 6px 6px 0 var(--shadow-color);
   transform: rotate(-1.2deg);
   line-height: 0.95;
 }

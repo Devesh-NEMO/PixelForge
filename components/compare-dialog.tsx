@@ -49,11 +49,11 @@ export function CompareDialog({
       role="dialog"
       aria-modal="true"
       aria-labelledby="compare-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 px-4 py-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--scrim)] px-4 py-6"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[720px] border-2 border-ink bg-paper-2 p-4 shadow-[10px_10px_0_var(--color-ink)] sm:p-6"
+        className="w-full max-w-[720px] border-2 border-ink bg-paper-2 p-4 shadow-[10px_10px_0_var(--shadow-color)] sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 border-b-2 border-ink pb-3">
@@ -72,7 +72,7 @@ export function CompareDialog({
             type="button"
             onClick={onClose}
             aria-label="Close comparison"
-            className="press grid h-8 w-8 shrink-0 place-items-center border-[1.5px] border-ink bg-paper hover:bg-lime hover:shadow-[2px_2px_0_var(--color-ink)]"
+            className="press grid h-8 w-8 shrink-0 place-items-center border-[1.5px] border-ink bg-paper hover:lime-fill hover:shadow-[2px_2px_0_var(--shadow-color)]"
           >
             <X size={15} strokeWidth={2.6} />
           </button>

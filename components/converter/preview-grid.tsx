@@ -26,7 +26,7 @@ export function PreviewGrid({ jobs, onRemove, onAdd }: PreviewGridProps) {
             type="button"
             onClick={() => onRemove(job.id)}
             aria-label={`Remove ${job.name}`}
-            className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center border-[1.5px] border-ink bg-paper-2 opacity-0 transition group-hover:opacity-100 hover:bg-lime focus-visible:opacity-100"
+            className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center border-[1.5px] border-ink bg-paper-2 opacity-0 transition group-hover:opacity-100 hover:lime-fill focus-visible:opacity-100"
           >
             <X size={13} strokeWidth={2.6} />
           </button>
@@ -44,7 +44,7 @@ export function PreviewGrid({ jobs, onRemove, onAdd }: PreviewGridProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="press grid min-h-[80px] place-items-center border-[1.5px] border-dashed border-ink/50 text-muted hover:border-solid hover:border-ink hover:bg-lime hover:text-ink hover:shadow-[3px_3px_0_var(--color-ink)]"
+        className="press grid min-h-[80px] place-items-center border-[1.5px] border-dashed border-ink/50 text-muted hover:border-solid hover:border-ink hover:lime-fill hover:shadow-[3px_3px_0_var(--shadow-color)]"
       >
         <span className="flex flex-col items-center gap-1.5 text-[9.5px] tracking-[0.1em] uppercase">
           <Plus size={16} strokeWidth={2.6} />

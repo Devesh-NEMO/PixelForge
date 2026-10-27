@@ -59,13 +59,15 @@ export function OutputSettings({
                   onClick={() => onTargetEnabledChange(!targetEnabled)}
                   className={cn(
                     "relative h-6 w-12 shrink-0 border-[1.5px] border-ink",
-                    targetEnabled ? "bg-lime" : "bg-paper-2"
+                    targetEnabled ? "lime-fill" : "bg-paper-2"
                   )}
                 >
                   <span
                     className={cn(
-                      "absolute top-[2px] h-[16px] w-[16px] border-[1.5px] border-ink bg-ink transition-all",
-                      targetEnabled ? "left-[26px]" : "left-[2px]"
+                      "absolute top-[2px] h-[16px] w-[16px] border-[1.5px] border-ink transition-all",
+                      targetEnabled
+                        ? "left-[26px] bg-on-accent"
+                        : "left-[2px] bg-ink"
                     )}
                   />
                 </button>
