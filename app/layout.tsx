@@ -93,7 +93,7 @@ export default function RootLayout({
       <body className="min-h-full bg-paper font-mono text-ink">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {children}
-        <ServiceWorkerRegistrar />
+        <ServiceWorkerRegistrar /> 
       </body>
     </html>
   );
